@@ -1,0 +1,10 @@
+Running industrial process: IND-01
+Duration: 8 hours average
+Using 2 Human + 1 AGV + Material resources
+
+--- Warehouse Summary ---
+Management Process Cost: 100.00
+Industrial Process Cost: 330.00
+Resources Cost: 1350.00
+Total Cost: 1780.00
+AGV AGV-01 @Zone A | Battery: 80.0% | Speed: 4.2 m/s

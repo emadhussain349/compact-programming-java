@@ -1,18 +1,16 @@
-// ========================
-// Class: AGV
-// ========================
-class AGV {
-    private String id;
-    private double batteryLoad;    // current battery level (%)
-    private double consumption;    // energy consumption per operation (kWh)
-    private int chargingTime;      // minutes required to recharge
-    private String position;       // current position in warehouse
+public class AGV extends HardwareResources {
+    private String ID;
+    private double batteryLoad;
+    private double consumption;
+    private double chargingTime;
+    private String position;
     private float maxSpeed;
     private float actSpeed;
 
-    public AGV(String id, double batteryLoad, double consumption, int chargingTime,
-               String position, float maxSpeed, float actSpeed) {
-        this.id = id;
+    public AGV(String ID, String field, double batteryLoad, double consumption,
+               double chargingTime, String position, float maxSpeed, float actSpeed) {
+        super(field);
+        this.ID = ID;
         this.batteryLoad = batteryLoad;
         this.consumption = consumption;
         this.chargingTime = chargingTime;
@@ -21,22 +19,16 @@ class AGV {
         this.actSpeed = actSpeed;
     }
 
-    public void setData(String key, Object value) {
-        switch (key.toLowerCase()) {
-            case "batteryload": this.batteryLoad = (double) value; break;
-            case "consumption": this.consumption = (double) value; break;
-            case "position": this.position = (String) value; break;
-            case "actspeed": this.actSpeed = (float) value; break;
-            default: System.out.println("Unknown property: " + key);
-        }
+    public void setdata(double consumption, float actSpeed) {
+        this.consumption = consumption;
+        this.actSpeed = actSpeed;
     }
 
-    public String getData() {
-        return "AGV[ID=" + id + ", Battery=" + batteryLoad + "%, Consumption=" + consumption +
-                " kWh, Pos=" + position + ", Speed=" + actSpeed + "/" + maxSpeed + "]";
+    public void getdata() {
+        System.out.printf("AGV %s @%s | Battery: %.1f%% | Speed: %.1f m/s%n",
+                ID, position, batteryLoad, actSpeed);
     }
 
-    public double getConsumption() {
-        return consumption;
-    }
+    @Override
+    public double getCost() { return 1000.0; }
 }

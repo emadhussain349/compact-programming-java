@@ -1,49 +1,25 @@
-// ========================
-// Class: IndustrialProcess
-// ========================
-import java.util.List;
+public class IndustrialProcess extends Process {
 
-class IndustrialProcess {
-    private String id;
-    private List<IOperation> operations;
-
-    public IndustrialProcess(String id, List<IOperation> operations) {
-        this.id = id;
-        this.operations = operations;
+    public IndustrialProcess(String ID) {
+        super(ID);
     }
 
-    public int processDuration() {
-        int total = 0;
-        for (IOperation op : operations) {
-            total += op.getDuration();
-        }
-        return total;
+    public void IndustrialProcess() {
+        System.out.println("Running industrial process: " + ID);
     }
 
-    public int processResources() {
-        int total = 0;
-        for (IOperation op : operations) {
-            total += op.getResources().size();
-        }
-        return total;
+    public void ProcessDuration() {
+        System.out.println("Duration: 8 hours average");
     }
 
-    public double energyConsumption() {
-        double total = 0.0;
-        for (IOperation op : operations) {
-            for (AGV agv : op.getResources()) {
-                total += agv.getConsumption();
-            }
-        }
-        return total;
+    public void ProcessResources() {
+        System.out.println("Using 2 Human + 1 AGV + Material resources");
     }
 
-    public void printSummary() {
-        System.out.println("\nIndustrialProcess[ID=" + id + "]");
-        System.out.println("---------------------------------------------------");
-        System.out.println("Total Duration: " + processDuration() + " mins");
-        System.out.println("Total Resources (AGVs used): " + processResources());
-        System.out.println("Energy Consumption: " + energyConsumption() + " kWh");
-        System.out.println("---------------------------------------------------");
+    @Override
+    public double calculateCost() {
+        double total = 0;
+        for (IOperation op : operations) total += op.getCost();
+        return total * 1.1; // 10 % overhead
     }
 }

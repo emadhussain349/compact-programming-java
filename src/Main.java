@@ -1,35 +1,38 @@
-// ========================
-// Main Simulation
-// ========================
-import java.util.*;
-
 public class Main {
     public static void main(String[] args) {
-        // Create AGVs
-        AGV agv1 = new AGV("AGV1", 100, 5.0, 30, "Dock", 10.0f, 8.0f);
-        AGV agv2 = new AGV("AGV2", 90, 4.5, 25, "ZoneA", 9.0f, 7.5f);
-        AGV agv3 = new AGV("AGV3", 80, 6.0, 40, "ZoneB", 11.0f, 9.0f);
 
-        // Create Operations
-        IOperation op1 = new IOperation("OP1", "Pick items from Zone A", 20, Arrays.asList(agv1));
-        IOperation op2 = new IOperation("OP2", "Transport to Dock", 15, Arrays.asList(agv1, agv2));
-        IOperation op3 = new IOperation("OP3", "Load onto Truck", 10, Arrays.asList(agv2));
-        IOperation op4 = new IOperation("OP4", "Move stock to Zone B", 25, Arrays.asList(agv3));
+        // Create processes
+        ManagementProcess mng = new ManagementProcess("MNG-01");
+        IndustrialProcess ind = new IndustrialProcess("IND-01");
 
-        // Create Industrial Processes
-        IndustrialProcess process1 = new IndustrialProcess("P1", Arrays.asList(op1, op2, op3));
-        IndustrialProcess process2 = new IndustrialProcess("P2", Arrays.asList(op2, op4));
+        // Add operations
+        mng.addOperation(new HumanOperation("Meeting"));
+        ind.addOperation(new TransportOperation("Forklift"));
+        ind.addOperation(new HumanOperation("Assembly"));
 
-        // Print Simulation Results
-        process1.printSummary();
-        System.out.println("Operations for P1:");
-        System.out.println(op1.getData());
-        System.out.println(op2.getData());
-        System.out.println(op3.getData());
+        // Resources
+        HumanResources hr = new HumanResources("Worker");
+        AGV agv = new AGV("AGV-01", "Robot", 80, 10, 2.5, "Zone A", 5.5f, 4.2f);
+        MaterialResources mat = new MaterialResources("Boxes");
 
-        process2.printSummary();
-        System.out.println("Operations for P2:");
-        System.out.println(op2.getData());
-        System.out.println(op4.getData());
+        // Simulate
+        ind.IndustrialProcess();
+        ind.ProcessDuration();
+        ind.ProcessResources();
+
+        // Cost calculations
+        double costMng = mng.calculateCost();
+        double costInd = ind.calculateCost();
+        double costRes = hr.getCost() + agv.getCost() + mat.getCost();
+
+        double total = costMng + costInd + costRes;
+
+        System.out.println("\n--- Warehouse Summary ---");
+        System.out.printf("Management Process Cost: %.2f%n", costMng);
+        System.out.printf("Industrial Process Cost: %.2f%n", costInd);
+        System.out.printf("Resources Cost: %.2f%n", costRes);
+        System.out.printf("Total Cost: %.2f%n", total);
+
+        agv.getdata();
     }
 }
